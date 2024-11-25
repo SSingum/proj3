@@ -7,7 +7,11 @@
       "args": [
         "-fdiagnostics-color=always",
         "-g",
+        "Record.cpp",
         "${file}",
+        "-I", "C:\\Users\\singu\\Downloads\\libxl-win-4.4.1\\libxl-4.4.1.0\\include_cpp", // Add this path
+        "-L", "C:\\Users\\singu\\Downloads\\libxl-win-4.4.1\\libxl-4.4.1.0\\lib", // Add library path for linking
+        "-llibxl", // Link the library
         "-o",
         "${fileDirname}\\${fileBasenameNoExtension}.exe"
       ],
