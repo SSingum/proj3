@@ -80,16 +80,13 @@ vector<T> quickSelect(vector<T>& elements, int k) {
     vector<T> maxElements;
     for (int i = first; i < k; i++)
         maxElements.push_back(elements[i]);
-    quickSort(maxElements);
+    quickSort(maxElements, 0, maxElements.size() - 1);
 
     return maxElements;
 }
 
 template <typename T>
-void quickSort(vector<T>& elements, int first = 0, int last = -1) {
-    if (last < 0) // default
-        last = elements.size() - 1;
-
+void quickSort(vector<T>& elements, int first, int last) {
     if (first < last) {
         // partition
         int pivotValue = findPivot(elements, first, last);
