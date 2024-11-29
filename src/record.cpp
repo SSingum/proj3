@@ -30,3 +30,4 @@ bool Record::operator>(Record& other) { return (this->revenue > other.revenue); 
 bool Record::operator<(Record& other) { return (this->revenue < other.revenue); }
 bool Record::operator>=(Record& other) { return (*this > other || *this == other); }
 bool Record::operator<=(Record& other) { return (*this < other || *this == other); }
+Record::operator float() const { return revenue; } 
