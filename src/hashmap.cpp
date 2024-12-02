@@ -1,4 +1,5 @@
 #include "hashmap.h"
+#include "record.h"
 
 hashMap::hashMap(){
   map = vector<Record*>(1000001, nullptr);
