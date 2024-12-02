@@ -4,15 +4,19 @@
 #include <vector>
 #include <string>
 #include "record.h"
+#include "hashmap.h"
 
 using namespace std;
 
 
 int main() {
 
+    // frontend
+
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
     vector<Record> records2022;
+    
 
     if (!data22.is_open())
         cout << "Sales data is not open!" << endl;
@@ -24,11 +28,12 @@ int main() {
     
     // initialize variables for loop
     string token; 
-    string remainder;
     string final;
+    hashMap map;
+    vector<Record> totalRev;
 
     // loop through every data point
-    for (int i = 0; i < 3000; i++) {
+    for (int j = 0; j < 3000; j++) {
         getline(data22, line);
         Record newRecord;
         istringstream stream(line);
@@ -37,15 +42,18 @@ int main() {
         for (int i = 0; i < 22; i++) {
             getline(stream, token,',');
 //          cout << token << endl;
+            string remainder = " ";
             switch (i) {
-                case 0: // COMMENT HERE WHAT DOES THIS DO
+                case 0: { // assigns billing month to new record
                     newRecord.setMonth(stoi(token));
                     break;
-                case 1: // COMMENT HERE WHAT DOES THIS DO
+                }
+                case 1: { // assigns company id
                     newRecord.setID(stoi(token));
                     break;
-                case 2:
-                    if (token[0] == '"') { // COMMENT HERE WHAT DOES THIS MEAN
+                }
+                case 2: {
+                    if (token[0] == '"') { // includes commas in company name
                         if (token.back() != '"') {
                             while (getline(stream, remainder, ',')) {
                                 token += ',' + remainder;
@@ -53,37 +61,51 @@ int main() {
                                     break;
                             }
                         }
-                        // COMMENT HERE
+                        // assigns company name 
                         token = token.substr(1, token.size()-2);
                         newRecord.setName(token);
                     }
-                    else // COMMENT HERE WHAT DOES THIS MEAN
+                    else // assigns company name immediately if no commas
                         newRecord.setName(token);
                     break;
-                case 16: // COMMENT HERE 
+                }
+                case 16: { // assigns revenue type
                     newRecord.setType(token);
                     break;
-                case 17: // COMMENT HERE 
+                }
+                case 17: {// assigns revenue component 
                     newRecord.setComponent(token);
                     break;
-                case 19: // COMMENT HERE
+                }
+                case 19: { // assigns volume of product bought 
                     newRecord.setVolume(stoi(token));
                     break;
-                case 21: // COMMENT HERE 
-                    for (char x : token){ // COMMENT what does this loop do
-                        if(isdigit(x) || x == '.' || x == '-')
-                            final += x;
-                    newRecord.setRevenue(stof(final));
+                }
+                case 21: {// assigns revenue amount
+                    newRecord.setRevenue(stof(token));
                     break;
-                default:
+                }
+                default: {
                     continue;
                 }
+                }
             }
+
+            records2022.push_back(newRecord);
+            map.update(newRecord);
         }
 
-        records2022.push_back(newRecord);
+        data22.close();
+
+        // returns company and total revenue
+        totalRev = map.getAllRecords();
+
+        // call functions for heapselect and quickselect 
+
+        // print out to the user the results 
+
+
+        return 0;
+
     }
 
-    data22.close();
-    return 0;
-}

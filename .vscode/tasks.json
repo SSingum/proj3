@@ -12,6 +12,7 @@
                 "${workspaceFolder}/src/heapselect.cpp",
                 "${workspaceFolder}/src/quickselect.cpp",
                 "${workspaceFolder}/src/record.cpp",
+                "${workspaceFolder}/src/hashmap.cpp",
                 "-o",
                 "${workspaceFolder}/build/proj3"
             ],
