@@ -5,6 +5,8 @@
 #include <string>
 #include "record.h"
 #include "hashmap.h"
+#include "quickselect.h"
+#include "heapselect.h"
 
 using namespace std;
 
@@ -12,6 +14,15 @@ using namespace std;
 int main() {
 
     // frontend
+    char input;
+    int k;
+    cout << "Welcome to Financial Trend Analyzer" << endl;
+    cout << "Enter input for quick (q) or heap (h)" << endl;
+    cin >> input;
+    cout << "Enter input for top k elements (1-10)" << endl;
+    cin >> k;
+
+
 
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
@@ -31,6 +42,8 @@ int main() {
     string final;
     hashMap map;
     vector<Record> totalRev;
+    vector<Record> heapSelectResult;
+    vector<Record> quickSelectResult;
 
     // loop through every data point
     for (int j = 0; j < 3000; j++) {
@@ -101,9 +114,24 @@ int main() {
         totalRev = map.getAllRecords();
 
         // call functions for heapselect and quickselect 
-
         // print out to the user the results 
-
+        if (input == 'q'){
+            // quickSelectResult = quickSelect(totalRev, k);
+            // int counter = 0;
+            // for (auto item : quickSelectResult){
+            //     counter += 1;
+            //     cout << counter << "Company Name:" << item.getName() << " Revenue: " << item.getRevenue() << endl;
+            // }
+            cout << "quick" << endl;
+        } else if (input == 'h'){
+            // heapSelectResult = heapSelect(totalRev, k);
+            // int counter = 0;
+            // for (auto item : heapSelectResult){
+            //     counter += 1;
+            //     cout << counter << "Company Name:" << item.getName() << " Revenue: " << item.getRevenue() << endl;
+            // }
+            cout << "heap" << endl;
+        }
 
         return 0;
 

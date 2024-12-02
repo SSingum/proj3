@@ -1,5 +1,6 @@
 #include "heapselect.h"
 #include "heap.h"
+#include "record.h"
 
 using namespace std;
 

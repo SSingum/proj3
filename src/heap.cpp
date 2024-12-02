@@ -1,5 +1,6 @@
 #include <vector>
 #include "heap.h"
+#include "record.h"
 
 using namespace std;
 

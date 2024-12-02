@@ -1,4 +1,5 @@
 #include <vector>
+#include "record.h"
 
 using namespace std;
 

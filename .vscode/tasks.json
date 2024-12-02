@@ -7,8 +7,11 @@
       "args": [
         "-fdiagnostics-color=always",
         "-g",
-        "Record.cpp",
+        "record.cpp",
         "hashmap.cpp",
+        "heap.cpp",
+        "heapselect.cpp",
+        "quickselect.cpp",
         "${file}",
         "-I", "C:\\Users\\singu\\Downloads\\libxl-win-4.4.1\\libxl-4.4.1.0\\include_cpp", // Add this path
         "-L", "C:\\Users\\singu\\Downloads\\libxl-win-4.4.1\\libxl-4.4.1.0\\lib", // Add library path for linking

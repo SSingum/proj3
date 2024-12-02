@@ -1,4 +1,5 @@
 #include "quickselect.h"
+#include "record.h"
 
 using namespace std;
 
