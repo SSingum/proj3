@@ -2,8 +2,11 @@
 
 // constructors
 Record::Record() {}
-Record::Record(int month, int ID, const string& name, const string& type, const string& component, int vol, float rev) 
-: billMonth(month), companyID(ID), companyName(name), chargeType(type), chargeComponent(component), volume(vol), revenue(rev) {}
+Record::Record(int ID, const string &name, float rev) 
+    : companyID(ID), companyName(name), revenue(rev) {}
+
+Record::Record(int month, int ID, const string &name, const string &type, const string &component, int vol, float rev)
+    : billMonth(month), companyID(ID), companyName(name), chargeType(type), chargeComponent(component), volume(vol), revenue(rev) {}
 
 // setters
 void Record::setMonth(int month) { billMonth = month; }

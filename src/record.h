@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#pragma once
 
 using namespace std;
 
@@ -17,6 +18,7 @@ class Record {
     public:
         // constructors
         Record ();
+        Record (int ID, const string& name, float rev);
         Record(int month, int ID, const string& name, const string& type, const string& component, int vol, float rev);
         // setters
         void setMonth(int month);

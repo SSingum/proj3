@@ -4,15 +4,19 @@
 #include <vector>
 #include <string>
 #include "record.h"
+#include "hashmap.h"
 
 using namespace std;
 
 
 int main() {
 
+    // frontend
+
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
     vector<Record> records2022;
+    
 
     if (!data22.is_open())
         cout << "Sales data is not open!" << endl;
@@ -25,6 +29,8 @@ int main() {
     // initialize variables for loop
     string token; 
     string final;
+    hashMap map;
+    vector<Record> totalRev;
 
     // loop through every data point
     for (int j = 0; j < 3000; j++) {
@@ -86,9 +92,19 @@ int main() {
             }
 
             records2022.push_back(newRecord);
+            map.update(newRecord);
         }
 
         data22.close();
+
+        // returns company and total revenue
+        totalRev = map.getAllRecords();
+
+        // call functions for heapselect and quickselect 
+
+        // print out to the user the results 
+
+
         return 0;
 
     }
