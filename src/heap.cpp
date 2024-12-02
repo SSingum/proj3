@@ -1,5 +1,6 @@
 #include <vector>
 #include "heap.h"
+#include "record.h"
 
 using namespace std;
 
@@ -79,7 +80,7 @@ void Heap<T>::insert(T newElement) {
     this->minHeap.push_back(newElement);
 
     // move it upwards until in correct position
-    heapifyUp(this->minHeap, this->minHeap.size() - 1);
+    heapifyUp(this->minHeap.size() - 1);
 }
 
 template <typename T>
@@ -92,8 +93,10 @@ T Heap<T>::peek() {
 
 template <typename T>
 T Heap<T>::extract() {
-    if (this->minHeap.size() < 1) // if empty, return empty record
-        return Record();
+    if (this->minHeap.size() < 1) { // if empty, return empty record
+        T empty;
+        return empty;
+    }
 
     // save the minimum and swap it with Last-In-Heap (LIH)
     T min = this->minHeap[0];
@@ -101,7 +104,7 @@ T Heap<T>::extract() {
 
     // remove the min and heapify LIH to put it in the right spot
     this->minHeap.pop_back();
-    heapifyDown(this->minHeap, 0);
+    heapifyDown(0);
 
     return min;
 }
@@ -110,3 +113,7 @@ T Heap<T>::extract() {
 // misc.
 template <typename T>
 int Heap<T>::size() { return this->minHeap.size(); }
+
+
+// template instantiation
+template class Heap<Record>;

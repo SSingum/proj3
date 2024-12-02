@@ -1,11 +1,22 @@
 #include "heapselect.h"
 #include "heap.h"
+#include "record.h"
 
 using namespace std;
 
 
 template <typename T>
 vector<T> heapSelect(vector<T>& elements, int k) {
+    // empty input
+    if (elements.empty())
+        return vector<T>();
+
+    // clamp k between 1 and elements.size()
+    if (k > elements.size())
+        k = elements.size();
+    if (k < 1)
+        k = 1;
+
     // create minHeap of size k to hold the maximum elements
     Heap<T> elementsHeap;
 
@@ -25,9 +36,15 @@ vector<T> heapSelect(vector<T>& elements, int k) {
 
     // extract k largest elements from the minHeap
     vector<T> maxElements;
-    for (int i = 0; i < elementsHeap.size(); i++)
+    for (int i = 0; i < k; i++)
         maxElements.push_back(elementsHeap.extract());
-    maxElements.reverse(); // reverse minHeap into descending order
+    // reverse minHeap into descending order
+    for (int i = 0; i < maxElements.size() / 2; i++)
+        swap(maxElements[i], maxElements[maxElements.size() - i - 1]);
 
     return maxElements;
 }
+
+
+// template instantiation
+template vector<Record> heapSelect<Record>(vector<Record>&, int);

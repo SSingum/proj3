@@ -16,7 +16,7 @@ class Record {
 
     public:
         // constructors
-        Record ();
+        Record();
         Record(int month, int ID, const string& name, const string& type, const string& component, int vol, float rev);
         // setters
         void setMonth(int month);
