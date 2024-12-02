@@ -12,7 +12,7 @@ class Record {
         string chargeType;
         string chargeComponent;
         int volume;
-        float revenue;
+        float revenue = -1;
 
     public:
         // constructors
@@ -41,4 +41,5 @@ class Record {
         bool operator<(Record& other);
         bool operator>=(Record& other);
         bool operator<=(Record& other);
+        operator float() const;
 };

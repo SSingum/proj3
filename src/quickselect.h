@@ -1,21 +1,24 @@
 #include <vector>
-#include "record.h"
 
 using namespace std;
 
 
 // finds a pivot of the given data using the median-of-three strategy
 // returns the value of the pivot
-float pivot(vector<Record>& records, int first, int last);
+template <typename T>
+float pivot(vector<T>& elements, int first, int last);
 
 // partitions the vector based on input pivot
 // returns index of where the pivot was placed after partitioning
-int partition(vector<Record>& records, float pivot, int first, int last);
+template <typename T>
+int partition(vector<T>& elements, float pivot, int first, int last);
 
-// quickSelect algorithm to find k largest records
-// returns vector of k largest records, sorted in descending order
-vector<Record> quickSelect(vector<Record>& records, int k);
+// quickSelect algorithm to find k largest elements
+// returns vector of k largest elements, sorted in descending order
+template <typename T>
+vector<T> quickSelect(vector<T>& elements, int k);
 
-// quickSort algorithm to sort the k largest records once found
+// quickSort algorithm to sort the k largest elements once found
 // returns nothing, but sorts the input vector
-void quickSort(vector<Record>& records, int first = 0, int last = -1);
+template <typename T>
+void quickSort(vector<T>& elements, int first = 0, int last = -1);

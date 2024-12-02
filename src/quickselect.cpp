@@ -3,12 +3,13 @@
 using namespace std;
 
 
-float findPivot(vector<Record>& records, int first, int last) {
+template <typename T>
+float findPivot(vector<T>& elements, int first, int last) {
     // find three values to take the median of
     int middle = first + (last - first) / 2;
-    float firstVal = records[first].getRevenue();
-    float middleVal = records[middle].getRevenue();
-    float lastVal = records[last].getRevenue();
+    float firstVal = elements[first];
+    float middleVal = elements[middle];
+    float lastVal = elements[last];
 
     // sort the values, so that middleVal is the median of the three
     if (firstVal > middleVal)
@@ -21,19 +22,20 @@ float findPivot(vector<Record>& records, int first, int last) {
     return middleVal;
 }
 
-int partition(vector<Record>& records, float pivot, int first, int last) {
+template <typename T>
+int partition(vector<T>& elements, float pivot, int first, int last) {
     int i = first - 1; // just before first element
     int j = last + 1; // just after last element
 
     while (true) { // repeat until partitioned
         // find a value left of pivot that is greater
-        do { i++; } while (records[i].getRevenue() < pivot);
+        do { i++; } while (elements[i] < pivot);
         // find a value right of pivot that is lesser
-        do { j--; } while (records[j].getRevenue() > pivot);
+        do { j--; } while (elements[j] > pivot);
         // check if i & j have crossed, meaning they passed over the pivot (done partitioning)
         if (i > j) break;
         // swap the two incorrectly-placed elements into correct positions
-        swap(records[i], records[j]);
+        swap(elements[i], elements[j]);
     }
 
     // note: elements equal to the pivot are placed on the LEFT of the returned pivot index
@@ -44,10 +46,11 @@ int partition(vector<Record>& records, float pivot, int first, int last) {
     return j;
 }
 
-vector<Record> quickSelect(vector<Record>& records, int k) {
+template <typename T>
+vector<T> quickSelect(vector<T>& elements, int k) {
     int first = 0;
-    int last = records.size() - 1;
-    float pivotVal = findPivot(records, first, last);
+    int last = elements.size() - 1;
+    float pivotVal = findPivot(elements, first, last);
     int pivot;
 
     if (k < 1)
@@ -55,7 +58,7 @@ vector<Record> quickSelect(vector<Record>& records, int k) {
 
     while (true) {
         // partition the current segment of the vector
-        pivot = partition(records, pivotVal, first, last);
+        pivot = partition(elements, pivotVal, first, last);
 
         // check if we've found the k largest elements
         if (k == (last - pivot) + 1) { // including pivot, k elements in right partition
@@ -73,25 +76,23 @@ vector<Record> quickSelect(vector<Record>& records, int k) {
             first = pivot + 1;
     }
 
-    // collect and sort the k largest records
-    vector<Record> largestRecords;
+    // collect and sort the k largest elements
+    vector<T> maxElements;
     for (int i = first; i < k; i++)
-        largestRecords.push_back(records[i]);
-    quickSort(largestRecords);
+        maxElements.push_back(elements[i]);
+    quickSort(maxElements, 0, maxElements.size() - 1);
 
-    return largestRecords;
+    return maxElements;
 }
 
-void quickSort(vector<Record>& records, int first = 0, int last = -1) {
-    if (last < 0) // default
-        last = records.size() - 1;
-
+template <typename T>
+void quickSort(vector<T>& elements, int first, int last) {
     if (first < last) {
         // partition
-        int pivotValue = findPivot(records, first, last);
-        int pivot = partition(records, pivotValue, first, last);
+        int pivotValue = findPivot(elements, first, last);
+        int pivot = partition(elements, pivotValue, first, last);
         // recursion
-        quickSort(records, first, pivot - 1);
-        quickSort(records, pivot + 1, last);
+        quickSort(elements, first, pivot - 1);
+        quickSort(elements, pivot + 1, last);
     }
 }
