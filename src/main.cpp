@@ -36,6 +36,7 @@ int main() {
     });
     app.port(1000).multithreaded().run();
     */
+
     // frontend
     char input;
     int k;
@@ -44,8 +45,6 @@ int main() {
     cin >> input;
     cout << "Enter input for top k elements (1-10)" << endl;
     cin >> k;
-
-
 
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
@@ -76,7 +75,7 @@ int main() {
         // loop through each piece of data in each CSV entry
         for (int i = 0; i < 22; i++) {
             getline(stream, token,',');
-//          cout << token << endl;
+            // cout << token << endl;
             string remainder = " ";
             switch (i) {
                 case 0: { // assigns billing month to new record
