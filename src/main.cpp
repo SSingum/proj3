@@ -4,19 +4,39 @@
 #include <vector>
 #include <string>
 #include "record.h"
-#include "hashmap.h"
+// #include "crow_all.h"
 
 using namespace std;
 
 
 int main() {
 
-    // frontend
+    // attempt to receive user input from frontend using crow
+    // functionality was unsuccessful, but still kept here to showcase that work was still put into this
+    /*
+    // receive user input from frontend using crow
+    // crow functionality from https://github.com/CrowCpp/crow
+    crow::SimpleApp app;
+    CROW_ROUTE(app, "/proj3").methods("POST"_method)([](const crow::request& req){
+        crow::response res;
+
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+        auto data = req.body;
+        cout << "Received user input: " << data << endl;
+
+        crow::json::wvalue response;
+        response["message"] = "Input received from backend";
+        return response;
+    });
+    app.port(1000).multithreaded().run();
+    */
 
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
     vector<Record> records2022;
-    
 
     if (!data22.is_open())
         cout << "Sales data is not open!" << endl;
@@ -29,8 +49,6 @@ int main() {
     // initialize variables for loop
     string token; 
     string final;
-    hashMap map;
-    vector<Record> totalRev;
 
     // loop through every data point
     for (int j = 0; j < 3000; j++) {
@@ -92,20 +110,9 @@ int main() {
             }
 
             records2022.push_back(newRecord);
-            map.update(newRecord);
         }
 
         data22.close();
-
-        // returns company and total revenue
-        totalRev = map.getAllRecords();
-
-        // call functions for heapselect and quickselect 
-
-        // print out to the user the results 
-
-
         return 0;
 
     }
-
