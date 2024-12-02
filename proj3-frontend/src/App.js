@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import logo from './Hash.webp';
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const labelInput = {
   fontFamily: '"Jersey 10", sans-serif',
@@ -53,8 +54,24 @@ const visualizeMinHeap = (arr, index = 0, position = 0, level = 0) => {
 
 function App() {
 
+  const [user_input, setInput] = useState('');
+
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   
+  const handleChange = (event) => {
+    setInput(event.target.value);
+  }
+  const handleClick = (event) => {
+    event.preventDefault();
+    
+    axios.post('http://localhost:1000/proj3', {data: user_input})
+    .then((response) => {
+      console.log(response); 
+      console.log(response.data)
+    });
+
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -70,15 +87,49 @@ function App() {
         {/*dropdown menu info and functionality from https://react-bootstrap.netlify.app/docs/components/dropdowns/*/}
         <DropdownButton id="dropdown-basic-button" title="Select from options below">
           <Dropdown.Item>
-            Option 1
+            2022
           </Dropdown.Item>
           <Dropdown.Item>
-            Option 2
-          </Dropdown.Item>
-          <Dropdown.Item>
-            Option 3
+            2023
           </Dropdown.Item>
         </DropdownButton>
+
+        {/* text box to take in user input*/}
+        <div style={{ ...labelInput, marginTop: "20px", marginBottom: "30px" }}>
+          Input Range:
+          <div
+            style={{ ...labelInput, marginTop: "10px", marginBottom: "10px" }}>
+            <input
+              type="text"
+              value={user_input}
+              onChange={(e) => setInput(e.target.value)}
+              style={{
+                fontFamily: '"Jersey 10", sans-serif',
+                fontSize: "20px",
+                padding: "5px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+              }}
+            />
+          </div>
+      </div>
+
+      <div>
+        <form onSubmit={handleClick}>
+          <label>
+            Submit User Input
+            <input
+              type="text"
+              name="user_input"
+              value={user_input}
+              onChange={handleChange}
+            />
+          </label>
+          <button type="Submit">
+            Test
+          </button>
+        </form>
+      </div>
 
         <div style={{marginTop: '50px'}}>
           {visualizeMinHeap(arr)}
