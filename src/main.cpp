@@ -70,9 +70,9 @@ int main() {
         cout << "            | |\033[1;37;42m    Welcome to Financial Trend Analyzer   \033[0;22;24m| |" << endl;
         cout << "            | |\033[1;37;42m           by Gator Gas Company           \033[0;22;24m| |" << endl;
         cout << "            | |\033[42m__________________________________________\033[0m| |" << endl;
-        cout << "            |______________________________________________|\n" << endl;
+        cout << "            ı|______________________________________________|\n" << endl;
 
-                // validate user input
+        // validate user input
         while(true){
             cout << "                   " << "\033[3;4m" << "Select year 2022 (a) or 2023 (b):" << "\033[23;24m ";
             cin >> year;
@@ -324,9 +324,9 @@ int main() {
                         }
                     }
 
-                    records2023.push_back(newRecord);
-                    map.update(newRecord);
-                }
+                records2023.push_back(newRecord);
+                map.update(newRecord);
+            }
 
             data23.close();
 
