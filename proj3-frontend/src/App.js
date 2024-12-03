@@ -6,6 +6,7 @@ import logo from './Hash.webp';
 import React, { useState } from 'react';
 import axios from 'axios';
 
+// specific text style for input text
 const labelInput = {
   fontFamily: '"Jersey 10", sans-serif',
   fontSize: "20px",
@@ -13,6 +14,7 @@ const labelInput = {
   letterSpacing: "3px",
 };
 
+// visualize the min heap
 const visualizeMinHeap = (arr, index = 0, position = 0, level = 0) => {
   // if min heap empty, return nothing
   if(index >= arr.length){
@@ -54,10 +56,13 @@ const visualizeMinHeap = (arr, index = 0, position = 0, level = 0) => {
 
 function App() {
 
+  // create variable to hold user input
   const [user_input, setInput] = useState('');
 
+  // test visualization of a min heap
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   
+  // axios post functionality from: https://www.geeksforgeeks.org/axios-in-react-a-guide-for-beginners/#post-request-with-axios
   const handleChange = (event) => {
     setInput(event.target.value);
   }
@@ -69,9 +74,9 @@ function App() {
       console.log(response); 
       console.log(response.data)
     });
-
   };
 
+  // actual function and displays for the website
   return (
     <div className="App">
       <header className="App-header">
@@ -94,7 +99,7 @@ function App() {
           </Dropdown.Item>
         </DropdownButton>
 
-        {/* text box to take in user input*/}
+        {/*text box to take in user input*/}
         <div style={{ ...labelInput, marginTop: "20px", marginBottom: "30px" }}>
           Input Range:
           <div
@@ -114,6 +119,7 @@ function App() {
           </div>
       </div>
 
+      {/*visualize text box for user input and submit button to send info to backend*/}
       <div>
         <form onSubmit={handleClick}>
           <label>
@@ -131,9 +137,10 @@ function App() {
         </form>
       </div>
 
-        <div style={{marginTop: '50px'}}>
-          {visualizeMinHeap(arr)}
-        </div>
+      {/*visualize the min heap*/}
+      <div style={{marginTop: '50px'}}>
+        {visualizeMinHeap(arr)}
+      </div>
 
       </header>
     </div>

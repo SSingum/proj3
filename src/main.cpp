@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "record.h"
+// #include "crow_all.h"
 #include "hashmap.h"
 #include "quickselect.h"
 #include "heapselect.h"
@@ -12,6 +13,29 @@ using namespace std;
 
 
 int main() {
+
+    // attempt to receive user input from frontend using crow
+    // functionality was unsuccessful, but still kept here to showcase that work was still put into this
+    /*
+    // receive user input from frontend using crow
+    // crow functionality from https://github.com/CrowCpp/crow
+    crow::SimpleApp app;
+    CROW_ROUTE(app, "/proj3").methods("POST"_method)([](const crow::request& req){
+        crow::response res;
+
+        res.add_header("Access-Control-Allow-Origin", "*");
+        res.add_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        res.add_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+        auto data = req.body;
+        cout << "Received user input: " << data << endl;
+
+        crow::json::wvalue response;
+        response["message"] = "Input received from backend";
+        return response;
+    });
+    app.port(1000).multithreaded().run();
+    */
 
     // frontend
     char input;
@@ -22,12 +46,9 @@ int main() {
     cout << "Enter input for top k elements (1-10)" << endl;
     cin >> k;
 
-
-
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
     vector<Record> records2022;
-    
 
     if (!data22.is_open())
         cout << "Sales data is not open!" << endl;
@@ -54,7 +75,7 @@ int main() {
         // loop through each piece of data in each CSV entry
         for (int i = 0; i < 22; i++) {
             getline(stream, token,',');
-//          cout << token << endl;
+            // cout << token << endl;
             string remainder = " ";
             switch (i) {
                 case 0: { // assigns billing month to new record
@@ -105,7 +126,6 @@ int main() {
             }
 
             records2022.push_back(newRecord);
-            map.update(newRecord);
         }
 
         data22.close();
@@ -135,4 +155,3 @@ int main() {
         return 0;
 
     }
-
