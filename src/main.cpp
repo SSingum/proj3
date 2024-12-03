@@ -70,7 +70,7 @@ int main() {
         cout << "            | |\033[1;37;42m    Welcome to Financial Trend Analyzer   \033[0;22;24m| |" << endl;
         cout << "            | |\033[1;37;42m           by Gator Gas Company           \033[0;22;24m| |" << endl;
         cout << "            | |\033[42m__________________________________________\033[0m| |" << endl;
-        cout << "            ı|______________________________________________|\n" << endl;
+        cout << "            |______________________________________________|\n" << endl;
 
         // validate user input
         while(true){
