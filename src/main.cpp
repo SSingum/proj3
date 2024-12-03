@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <iomanip>
 #include "record.h"
 // #include "crow_all.h"
 #include "hashmap.h"
@@ -213,14 +214,14 @@ int main() {
             int counter = 0;
             for (auto item : quickSelectResult){
                 counter += 1;
-                cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << "\033[23m" << endl;
+                cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << fixed << setprecision(2) << item.getRevenue() << "\033[23m" << endl;
             }
         } else if (input == 'h'){
             heapSelectResult = heapSelect(totalRev, k);
             int counter = 0;
             for (auto item : heapSelectResult){
                 counter += 1;
-                cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << "\033[23m" << endl;
+                cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << fixed << setprecision(2) << item.getRevenue() << "\033[23m" << endl;
             }
         }
 
