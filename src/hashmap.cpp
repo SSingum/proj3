@@ -7,7 +7,7 @@ hashMap::hashMap(){
 
 void hashMap::update(Record updateRecord){
   if(map[updateRecord.getID()] == nullptr){
-    map[updateRecord.getID()] == new Record(updateRecord.getID(), updateRecord.getName(), updateRecord.getRevenue());
+    map[updateRecord.getID()] = new Record(updateRecord.getID(), updateRecord.getName(), updateRecord.getRevenue());
   } else {
     map[updateRecord.getID()]->setRevenue(map[updateRecord.getID()]->getRevenue() + updateRecord.getRevenue()); 
   }
