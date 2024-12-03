@@ -266,7 +266,7 @@ int main() {
             vector<Record> quickSelectResult;
 
             // loop through every data point
-            for (int j = 0; j < 3000; j++) {
+            for (int j = 0; j < 100000; j++) {
                 getline(data23, line);
                 Record newRecord;
                 istringstream stream(line);
