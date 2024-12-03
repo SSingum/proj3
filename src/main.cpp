@@ -38,16 +38,55 @@ int main() {
     */
 
     // frontend
+    // design from: https://www.asciiart.eu/miscellaneous/money
+    cout << "\n\033[42m||====================================================================||\033[0m" << endl;
+    cout << "\033[42m||//$\\\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\//$\\\\||\033[0m" << endl;
+    cout << "\033[42m||(100)==================| FEDERAL RESERVE NOTE |================(100)||\033[0m" << endl;
+    cout << "\033[42m||\\\\$//        ~         '------========--------'                \\\\$//||\033[0m" << endl;
+    cout << "\033[42m||<< /        /$\\              // ____ \\\\                         \\ >>||\033[0m" << endl;
+    cout << "\033[42m||>>|  12    //L\\\\            // ///..) \\\\         L38036133B   12 |<<||\033[0m" << endl;
+    cout << "\033[42m||<<|        \\\\ //           || <||  >\\  ||                        |>>||\033[0m" << endl;
+    cout << "\033[42m||>>|         \\$/            ||  $$ --/  ||        One Hundred     |<<||\033[0m" << endl;
+    cout << "\033[42m||<<|      L38036133B        *\\\\  |\\_/  //* series                 |>>||\033[0m" << endl;
+    cout << "\033[42m||>>|  12                     *\\\\/___\\_//*   1989                  |<<||\033[0m" << endl;
+    cout << "\033[42m||<<\\      Treasurer     ______/Franklin\\________     Secretary 12 />>||\033[0m" << endl;
+    cout << "\033[42m||//$\\\\                 ~|UNITED STATES OF AMERICA|~             //$\\\\||\033[0m" << endl;
+    cout << "\033[42m||(100)===================  ONE HUNDRED DOLLARS =================(100)||\033[0m" << endl;
+    cout << "\033[42m||\\\\$//\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\///$\\\\||\033[0m" << endl;
+    cout << "\033[42m||====================================================================||\033[0m" << endl;
+
+    // ANSI escape codes used for design from: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
     char input;
     int k;
-    cout << "Welcome to Financial Trend Analyzer" << endl;
-    cout << "Enter input for quick (q) or heap (h)" << endl;
+
+    cout << "             ______________________________________________" << endl;
+    cout << "            |  __________________________________________  |" << endl;
+    cout << "            | |\033[42m                                          \033[0m| |" << endl;
+    cout << "            | |\033[1;37;42m   Welcome to Financial Trend Analyzer!   \033[0;22;24m| |" << endl;
+    cout << "            | |\033[42m__________________________________________\033[0m| |" << endl;
+    cout << "            |______________________________________________|\n" << endl;
+
+    cout << "                 " << "\033[3;4m" << "Enter input for quick (q) or heap (h):" << "\033[23;24m ";
     cin >> input;
-    cout << "Enter input for top k elements (1-10)" << endl;
+
+    // design from: https://www.asciiart.eu/miscellaneous/hourglass
+    cout << "\n                                 " << "+====+" << endl;
+    cout << "                                 " << "|(::)|" << endl;
+    cout << "                                 " << "| )( |" << endl;
+    cout << "                                 " << "|(..)|" << endl;
+    cout << "                                 " << "+====+" << endl;
+
+    cout << "\n                 " << "\033[3;4m" << "Enter input for top k elements (1-10): " << "\033[23;24m ";
     cin >> k;
 
+    cout << "\n                                 " << "+====+" << endl;
+    cout << "                                 " << "|(::)|" << endl;
+    cout << "                                 " << "| )( |" << endl;
+    cout << "                                 " << "|(..)|" << endl;
+    cout << "                                 " << "+====+" << endl;
+
     // open CSV file
-    ifstream data22("../data/SalesData2022.csv");
+    ifstream data22("src/SalesData2022.csv");
     vector<Record> records2022;
 
     if (!data22.is_open())
@@ -126,32 +165,64 @@ int main() {
             }
 
             records2022.push_back(newRecord);
+            map.update(newRecord);
         }
 
-        data22.close();
+    data22.close();
 
-        // returns company and total revenue
-        totalRev = map.getAllRecords();
-        //totalRev = records2022;
+    // returns company and total revenue
+    totalRev = map.getAllRecords();
+    // totalRev = records2022;
 
-        // call functions for heapselect and quickselect 
-        // print out to the user the results 
-        if (input == 'q'){
-            quickSelectResult = quickSelect(totalRev, k);
-            int counter = 0;
-            for (auto item : quickSelectResult){
-                counter += 1;
-                cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
-            }
-        } else if (input == 'h'){
-            heapSelectResult = heapSelect(totalRev, k);
-            int counter = 0;
-            for (auto item : heapSelectResult){
-                counter += 1;
-                cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
-            }
+    // call functions for heapselect and quickselect 
+    // print out to the user the results 
+    cout << "\n                     _______________________________" << endl;
+    cout << "                    |  ___________________________  |" << endl;
+    cout << "                    | |\033[42m                           \033[0m| |" << endl;
+    cout << "                    | |\033[1;37;42m    Companies Revenue:     \033[0;22;24m| |" << endl;
+    cout << "                    | |\033[42m___________________________\033[0m| |" << endl;
+    cout << "                    |_______________________________|\n" << endl;
+    if (input == 'q'){
+        quickSelectResult = quickSelect(totalRev, k);
+        int counter = 0;
+        for (auto item : quickSelectResult){
+            counter += 1;
+            cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << "\033[23m" << endl;
         }
-
-        return 0;
-
+    } else if (input == 'h'){
+        heapSelectResult = heapSelect(totalRev, k);
+        int counter = 0;
+        for (auto item : heapSelectResult){
+            counter += 1;
+            cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << "\033[23m" << endl;
+        }
     }
+
+    // design from: https://www.asciiart.eu/miscellaneous/money
+    cout << "\n   \033[42m||====================================================================||\033[0m" << endl;
+    cout << "   \033[42m||//$\\\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\//\\///$\\\\||\033[0m" << endl;
+    cout << "   \033[42m||(100)==================| FEDERAL RESERVE NOTE |================(100)||\033[0m" << endl;
+    cout << "   \033[42m||\\\\$//        ~         '------========--------'                \\\\$//||\033[0m" << endl;
+    cout << "   \033[42m||<< /        /$\\              // ____ \\\\                         \\ >>||\033[0m" << endl;
+    cout << "   \033[42m||>>|  12    //L\\\\            // ///..) \\\\         L38036133B   12 |<<||\033[0m" << endl;
+    cout << "   \033[42m||<<|        \\\\ //           || <||  >\\  ||                        |>>||\033[0m" << endl;
+    cout << "   \033[42m||>>|         \\$/            ||  $$ --/  ||        One Hundred     |<<||\033[0m" << endl;
+    cout << "\033[42m||====================================================================||>||\033[0m" << endl;
+    cout << "\033[42m||//$\\\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\//$\\\\||<||\033[0m" << endl;
+    cout << "\033[42m||(100)==================| FEDERAL RESERVE NOTE |================(100)||>||\033[0m" << endl;
+    cout << "\033[42m||\\\\$//        ~         '------========--------'                \\\\$//||\\||\033[0m" << endl;
+    cout << "\033[42m||<< /        /$\\              // ____ \\\\                         \\ >>||)||\033[0m" << endl;
+    cout << "\033[42m||>>|  12    //L\\\\            // ///..) \\\\         L38036133B   12 |<<||/||\033[0m" << endl;
+    cout << "\033[42m||<<|        \\\\ //           || <||  >\\  ||                        |>>||=||\033[0m" << endl;
+    cout << "\033[42m||>>|         \\$/            ||  $$ --/  ||        One Hundred     |<<||\033[0m" << endl;
+    cout << "\033[42m||<<|      L38036133B        *\\\\  |\\_/  //* series                 |>>||\033[0m" << endl;
+    cout << "\033[42m||>>|  12                     *\\\\/___\\_//*   1989                  |<<||\033[0m" << endl;
+    cout << "\033[42m||<<\\      Treasurer     ______/Franklin\\________     Secretary 12 />>||\033[0m" << endl;
+    cout << "\033[42m||//$\\                 ~|UNITED STATES OF AMERICA|~               /$\\\\||\033[0m" << endl;
+    cout << "\033[42m||(100)===================  ONE HUNDRED DOLLARS =================(100)||\033[0m" << endl;
+    cout << "\033[42m||\\\\$//\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\///$\\\\||\033[0m" << endl;
+    cout << "\033[42m||====================================================================||\033[0m\n" << endl;
+
+    return 0;
+
+}
