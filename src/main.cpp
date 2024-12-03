@@ -37,6 +37,8 @@ int main() {
     app.port(1000).multithreaded().run();
     */
 
+   cout << "testing testing" << endl;
+
     // frontend
     char input;
     int k;
