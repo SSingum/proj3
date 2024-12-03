@@ -37,8 +37,6 @@ int main() {
     app.port(1000).multithreaded().run();
     */
 
-   cout << "testing testing" << endl;
-
     // frontend
     char input;
     int k;
@@ -49,7 +47,7 @@ int main() {
     cin >> k;
 
     // open CSV file
-    ifstream data22("/Users/Sara Lin/Documents/GitHub/proj3/src/SalesData2022.csv");
+    ifstream data22("../data/SalesData2022.csv");
     vector<Record> records2022;
 
     if (!data22.is_open())
@@ -134,25 +132,24 @@ int main() {
 
         // returns company and total revenue
         totalRev = map.getAllRecords();
+        //totalRev = records2022;
 
         // call functions for heapselect and quickselect 
         // print out to the user the results 
         if (input == 'q'){
-            // quickSelectResult = quickSelect(totalRev, k);
-            // int counter = 0;
-            // for (auto item : quickSelectResult){
-            //     counter += 1;
-            //     cout << counter << "Company Name:" << item.getName() << " Revenue: " << item.getRevenue() << endl;
-            // }
-            cout << "quick" << endl;
+            quickSelectResult = quickSelect(totalRev, k);
+            int counter = 0;
+            for (auto item : quickSelectResult){
+                counter += 1;
+                cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
+            }
         } else if (input == 'h'){
-            // heapSelectResult = heapSelect(totalRev, k);
-            // int counter = 0;
-            // for (auto item : heapSelectResult){
-            //     counter += 1;
-            //     cout << counter << "Company Name:" << item.getName() << " Revenue: " << item.getRevenue() << endl;
-            // }
-            cout << "heap" << endl;
+            heapSelectResult = heapSelect(totalRev, k);
+            int counter = 0;
+            for (auto item : heapSelectResult){
+                counter += 1;
+                cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
+            }
         }
 
         return 0;
