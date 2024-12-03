@@ -48,6 +48,7 @@ int main() {
 
     // open CSV file
     ifstream data22("../data/SalesData2022.csv");
+    ifstream data22("/Users/Sara Lin/Documents/GitHub/proj3/src/SalesData2022.csv");
     vector<Record> records2022;
 
     if (!data22.is_open())
@@ -143,6 +144,13 @@ int main() {
                 counter += 1;
                 cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
             }
+            // quickSelectResult = quickSelect(totalRev, k);
+            // int counter = 0;
+            // for (auto item : quickSelectResult){
+            //     counter += 1;
+            //     cout << counter << "Company Name:" << item.getName() << " Revenue: " << item.getRevenue() << endl;
+            // }
+            cout << "quick" << endl;
         } else if (input == 'h'){
             heapSelectResult = heapSelect(totalRev, k);
             int counter = 0;
@@ -150,6 +158,13 @@ int main() {
                 counter += 1;
                 cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
             }
+            // heapSelectResult = heapSelect(totalRev, k);
+            // int counter = 0;
+            // for (auto item : heapSelectResult){
+            //     counter += 1;
+            //     cout << counter << "Company Name:" << item.getName() << " Revenue: " << item.getRevenue() << endl;
+            // }
+            cout << "heap" << endl;
         }
 
         return 0;
