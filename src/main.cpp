@@ -107,7 +107,7 @@ int main() {
 
         // validate user input
         while(true){
-            cout << "\n                 " << "\033[3;4m" << "Enter input for top k elements (1-10): " << "\033[23;24m ";
+            cout << "\n                 " << "\033[3;4m" << "Enter input for top k elements (>0): " << "\033[23;24m ";
             cin >> k;
 
             // if enter anything other than an int, clear it and continue
@@ -117,7 +117,7 @@ int main() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
 
-            if(k >= 1 && k <= 10){
+            if(k >= 1){
                 break;
             }
         }
