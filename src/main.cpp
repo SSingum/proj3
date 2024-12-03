@@ -47,7 +47,6 @@ int main() {
     cin >> k;
 
     // open CSV file
-    ifstream data22("../data/SalesData2022.csv");
     ifstream data22("/Users/Sara Lin/Documents/GitHub/proj3/src/SalesData2022.csv");
     vector<Record> records2022;
 
@@ -133,17 +132,10 @@ int main() {
 
         // returns company and total revenue
         totalRev = map.getAllRecords();
-        //totalRev = records2022;
 
         // call functions for heapselect and quickselect 
         // print out to the user the results 
         if (input == 'q'){
-            quickSelectResult = quickSelect(totalRev, k);
-            int counter = 0;
-            for (auto item : quickSelectResult){
-                counter += 1;
-                cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
-            }
             // quickSelectResult = quickSelect(totalRev, k);
             // int counter = 0;
             // for (auto item : quickSelectResult){
@@ -152,12 +144,6 @@ int main() {
             // }
             cout << "quick" << endl;
         } else if (input == 'h'){
-            heapSelectResult = heapSelect(totalRev, k);
-            int counter = 0;
-            for (auto item : heapSelectResult){
-                counter += 1;
-                cout << counter << ") Company Name: " << item.getName() << " Revenue: " << item.getRevenue() << endl;
-            }
             // heapSelectResult = heapSelect(totalRev, k);
             // int counter = 0;
             // for (auto item : heapSelectResult){
