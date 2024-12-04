@@ -14,7 +14,7 @@
                 "${workspaceFolder}/src/record.cpp",
                 "${workspaceFolder}/src/hashmap.cpp",
                 "-o",
-                "${workspaceFolder}/build/proj3"
+                "${workspaceFolder}/build/financial_trend_analyzer"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

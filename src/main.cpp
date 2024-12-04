@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <limits>
 #include "record.h"
 // #include "crow_all.h"
 #include "hashmap.h"
@@ -57,11 +58,11 @@ int main() {
     cout << "\033[42m||====================================================================||\033[0m" << endl;
 
     // loop through program till user exits
-    while(true){
+    while (true) {
         // ANSI escape codes used for design from: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-        char input;
+        string input;
         int k = 0;
-        char year;
+        string year;
 
         // design from: https://www.asciiart.eu/art-and-design/borders
         cout << "             ______________________________________________" << endl;
@@ -70,16 +71,15 @@ int main() {
         cout << "            | |\033[1;37;42m    Welcome to Financial Trend Analyzer   \033[0;22;24m| |" << endl;
         cout << "            | |\033[1;37;42m           by Gator Gas Company           \033[0;22;24m| |" << endl;
         cout << "            | |\033[42m__________________________________________\033[0m| |" << endl;
-        cout << "            ı|______________________________________________|\n" << endl;
+        cout << "            |______________________________________________|\n" << endl;
 
         // validate user input
-        while(true){
+        while (true) {
             cout << "                   " << "\033[3;4m" << "Select year 2022 (a) or 2023 (b):" << "\033[23;24m ";
             cin >> year;
 
-            if(year == 'a' || year == 'b'){
+            if (year == "a" || year == "b")
                 break;
-            }
         }
 
         // design from: https://www.asciiart.eu/miscellaneous/hourglass
@@ -90,13 +90,12 @@ int main() {
         cout << "                                 " << "+====+" << endl;
 
         // validate user input
-        while(true){
+        while (true) {
             cout << "          " << "\033[3;4m" << "Enter input for quick select (q) or heap select (h):" << "\033[23;24m ";
             cin >> input;
 
-            if(input == 'h' || input == 'q'){
+            if (input == "h" || input == "q")
                 break;
-            }
         }
 
         cout << "\n                                 " << "+====+" << endl;
@@ -128,248 +127,148 @@ int main() {
         cout << "                                 " << "|(..)|" << endl;
         cout << "                                 " << "+====+" << endl;
 
-        if(year == 'a'){
-            // open CSV file
-            ifstream data22("src/SalesData2022.csv");
-            vector<Record> records2022;
 
-            if (!data22.is_open()){
+        ifstream data;
+
+        // open data
+        if (year == "a")
+            data.open("data/SalesData2022.csv");
+        else if (year == "b")
+            data.open("data/SalesData2023.csv");
+        else {
+            cout << "Invalid data selection!";
+            continue;
+        }
+
+        if (!data.is_open()) {
+            // failsafe, adjusts depending on where parent directory is
+            if (year == "a")
+                data.open("../data/SalesData2022.csv");
+            else if (year == "b")
+                data.open("../data/SalesData2023.csv");
+            else {
                 cout << "Sales data is not open!" << endl;
-            }
-
-            // clear template lines of the CSV
-            string line; 
-            getline(data22, line);
-            getline(data22, line);
-            
-            // initialize variables for loop
-            string token; 
-            string final;
-            hashMap map;
-            vector<Record> totalRev;
-            vector<Record> heapSelectResult;
-            vector<Record> quickSelectResult;
-
-            // loop through every data point
-            for (int j = 0; j < 3000; j++) {
-                getline(data22, line);
-                Record newRecord;
-                istringstream stream(line);
-
-                // loop through each piece of data in each CSV entry
-                for (int i = 0; i < 22; i++) {
-                    getline(stream, token,',');
-                    // cout << token << endl;
-                    string remainder = " ";
-                    switch (i) {
-                        case 0: { // assigns billing month to new record
-                            newRecord.setMonth(stoi(token));
-                            break;
-                        }
-                        case 1: { // assigns company id
-                            newRecord.setID(stoi(token));
-                            break;
-                        }
-                        case 2: {
-                            if (token[0] == '"') { // includes commas in company name
-                                if (token.back() != '"') {
-                                    while (getline(stream, remainder, ',')) {
-                                        token += ',' + remainder;
-                                        if (remainder.back() == '"')
-                                            break;
-                                    }
-                                }
-                                // assigns company name 
-                                token = token.substr(1, token.size()-2);
-                                newRecord.setName(token);
-                            }
-                            else // assigns company name immediately if no commas
-                                newRecord.setName(token);
-                            break;
-                        }
-                        case 16: { // assigns revenue type
-                            newRecord.setType(token);
-                            break;
-                        }
-                        case 17: {// assigns revenue component 
-                            newRecord.setComponent(token);
-                            break;
-                        }
-                        case 19: { // assigns volume of product bought 
-                            newRecord.setVolume(stoi(token));
-                            break;
-                        }
-                        case 21: {// assigns revenue amount
-                            newRecord.setRevenue(stof(token));
-                            break;
-                        }
-                        default: {
-                            continue;
-                        }
-                        }
-                    }
-
-                    records2022.push_back(newRecord);
-                    map.update(newRecord);
-                }
-
-            data22.close();
-
-            // returns company and total revenue
-            totalRev = map.getAllRecords();
-            // totalRev = records2022;
-
-            // call functions for heapselect and quickselect 
-            // print out to the user the results 
-            cout << "\n                     _______________________________" << endl;
-            cout << "                    |  ___________________________  |" << endl;
-            cout << "                    | |\033[42m                           \033[0m| |" << endl;
-            cout << "                    | |\033[1;37;42m    Companies Revenue:     \033[0;22;24m| |" << endl;
-            cout << "                    | |\033[42m___________________________\033[0m| |" << endl;
-            cout << "                    |_______________________________|\n" << endl;
-
-            if (input == 'q'){
-                quickSelectResult = quickSelect(totalRev, k);
-                int counter = 0;
-                for (auto item : quickSelectResult){
-                    counter += 1;
-                    cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << "$" << fixed << setprecision(2) << item.getRevenue() << "\033[23m" << endl;
-                }
-            } else if (input == 'h'){
-                heapSelectResult = heapSelect(totalRev, k);
-                int counter = 0;
-                for (auto item : heapSelectResult){
-                    counter += 1;
-                    cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << "$" << fixed << setprecision(2) << item.getRevenue() << "\033[23m" << endl;
-                }
+                break;
             }
         }
-        else{
-            // open CSV file
-            ifstream data23("src/SalesData2023.csv");
-            vector<Record> records2023;
 
-            if (!data23.is_open()){
-                cout << "Sales data is not open!" << endl;
-            }
+        // clear template lines of the CSV
+        string line; 
+        getline(data, line);
+        
+        // initialize variables for loop
+        string token; 
+        string final;
+        hashMap map;
+        vector<Record> totalRev;
+        vector<Record> heapSelectResult;
+        vector<Record> quickSelectResult;
 
-            // clear template lines of the CSV
-            string line; 
-            getline(data23, line);
-            
-            // initialize variables for loop
-            string token; 
-            string final;
-            hashMap map;
-            vector<Record> totalRev;
-            vector<Record> heapSelectResult;
-            vector<Record> quickSelectResult;
+        int counter = 0;
 
-            // loop through every data point
-            for (int j = 0; j < 100000; j++) {
-                getline(data23, line);
-                Record newRecord;
-                istringstream stream(line);
+        // loop through every line of data
+        while (getline(data, line)) {
+            Record newRecord;
+            istringstream stream(line);
 
-                // loop through each piece of data in each CSV entry
-                for (int i = 0; i < 22; i++) {
-                    getline(stream, token,',');
-                    // cout << token << endl;
-                    string remainder = " ";
-                    switch (i) {
-                        case 0: { // assigns billing month to new record
-                            newRecord.setMonth(stoi(token));
-                            break;
-                        }
-                        case 1: { // assigns company id
-                            newRecord.setID(stoi(token));
-                            break;
-                        }
-                        case 2: {
-                            if (token[0] == '"') { // includes commas in company name
-                                if (token.back() != '"') {
-                                    while (getline(stream, remainder, ',')) {
-                                        token += ',' + remainder;
-                                        if (remainder.back() == '"')
-                                            break;
-                                    }
-                                }
-                                // assigns company name 
-                                token = token.substr(1, token.size()-2);
-                                newRecord.setName(token);
-                            }
-                            else // assigns company name immediately if no commas
-                                newRecord.setName(token);
-                            break;
-                        }
-                        case 16: { // assigns revenue type
-                            newRecord.setType(token);
-                            break;
-                        }
-                        case 17: {// assigns revenue component 
-                            newRecord.setComponent(token);
-                            break;
-                        }
-                        case 19: { // assigns volume of product bought 
-                            newRecord.setVolume(stoi(token));
-                            break;
-                        }
-                        case 21: {// assigns revenue amount
-                            newRecord.setRevenue(stof(token));
-                            break;
-                        }
-                        default: {
-                            continue;
-                        }
-                        }
+            // loop through each piece of data in each CSV entry
+            for (int i = 0; i < 22; i++) {
+                // get value
+                getline(stream, token,',');
+                string remainder = " ";
+                // switch through possible data entries to assign it
+                switch (i) {
+                    case 0: { // assigns billing month to new record
+                        newRecord.setMonth(stoi(token));
+                        break;
                     }
-
-                records2023.push_back(newRecord);
-                map.update(newRecord);
+                    case 1: { // assigns company id
+                        newRecord.setID(stoi(token));
+                        break;
+                    }
+                    case 2: {
+                        if (token[0] == '"') { // includes commas in company name
+                            if (token.back() != '"') {
+                                while (getline(stream, remainder, ',')) {
+                                    token += ',' + remainder;
+                                    if (remainder.back() == '"')
+                                        break;
+                                }
+                            }
+                            // assigns company name 
+                            token = token.substr(1, token.size()-2);
+                            newRecord.setName(token);
+                        }
+                        else // assigns company name immediately if no commas
+                            newRecord.setName(token);
+                        break;
+                    }
+                    case 16: { // assigns revenue type
+                        newRecord.setType(token);
+                        break;
+                    }
+                    case 17: { // assigns revenue component 
+                        newRecord.setComponent(token);
+                        break;
+                    }
+                    case 19: { // assigns volume of product bought 
+                        newRecord.setVolume(stoi(token));
+                        break;
+                    }
+                    case 21: { // assigns revenue amount
+                        newRecord.setRevenue(stof(token));
+                        break;
+                    }
+                    default: {
+                        continue;
+                    }
+                }
             }
 
-            data23.close();
+            map.update(newRecord);
+        }
 
-            // returns company and total revenue
-            totalRev = map.getAllRecords();
-            // totalRev = records2022;
+        data.close();
 
-            // call functions for heapselect and quickselect 
-            // print out to the user the results 
-            cout << "\n                     _______________________________" << endl;
-            cout << "                    |  ___________________________  |" << endl;
-            cout << "                    | |\033[42m                           \033[0m| |" << endl;
-            cout << "                    | |\033[1;37;42m    Companies Revenue:     \033[0;22;24m| |" << endl;
-            cout << "                    | |\033[42m___________________________\033[0m| |" << endl;
-            cout << "                    |_______________________________|\n" << endl;
+        // calculate a vector to unify data points under the same company names
+        totalRev = map.getAllRecords();
 
-            if (input == 'q'){
-                quickSelectResult = quickSelect(totalRev, k);
-                int counter = 0;
-                for (auto item : quickSelectResult){
-                    counter += 1;
-                    cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << "$" << fixed << setprecision(2) << item.getRevenue() << "\033[23m" << endl;
-                }
-            } else if (input == 'h'){
-                heapSelectResult = heapSelect(totalRev, k);
-                int counter = 0;
-                for (auto item : heapSelectResult){
-                    counter += 1;
-                    cout << "\033[3m" << counter << ") Company Name: " << item.getName() << " Revenue: " << "$" << fixed << setprecision(2) << item.getRevenue() << "\033[23m" << endl;
-                }
+        // print out to the user the results 
+        cout << "\n                     _______________________________" << endl;
+        cout << "                    |  ___________________________  |" << endl;
+        cout << "                    | |\033[42m                           \033[0m| |" << endl;
+        cout << "                    | |\033[1;37;42m    Companies Revenue:     \033[0;22;24m| |" << endl;
+        cout << "                    | |\033[42m___________________________\033[0m| |" << endl;
+        cout << "                    |_______________________________|\n" << endl;
+
+        // call selection algorithms
+        if (input == "q") { // quickSelect
+            quickSelectResult = quickSelect(totalRev, k);
+            int counter = 0;
+            for (int i = 0; i < quickSelectResult.size(); i++) {
+                counter += 1;
+                cout << "\033[3m" << counter << ") Company Name: " << quickSelectResult[i].getName() << " Revenue: " << "$" << fixed << setprecision(2) << quickSelectResult[i].getRevenue() << "\033[23m" << endl;
+            }
+        }
+        else if (input == "h") { // heapSelect
+            heapSelectResult = heapSelect(totalRev, k);
+            int counter = 0;
+            for (int i = 0; i < heapSelectResult.size(); i++) {
+                counter += 1;
+                cout << "\033[3m" << counter << ") Company Name: " << heapSelectResult[i].getName() << " Revenue: " << "$" << fixed << setprecision(2) << heapSelectResult[i].getRevenue() << "\033[23m" << endl;
             }
         }
 
         char exit;
 
-        // check is user wants to exit program
-        cout << "\n            " << "\033[3;4m" << "Enter yes (y) if you wish to exit the program:" << "\033[23;24m ";
+        // check if user wants to exit program
+        cout << "\n            " << "\033[3;4m" << "Enter (y) if you wish to repeat the program:" << "\033[23;24m ";
         cin >> exit;
 
-        if(exit == 'y'){
+        if (exit == 'y')
+            continue;
+        else
             break;
-        }
-
     }
 
     // design from: https://www.asciiart.eu/miscellaneous/money
@@ -397,6 +296,8 @@ int main() {
     cout << "\033[42m||\\\\$//\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\///$\\\\||\033[0m" << endl;
     cout << "\033[42m||====================================================================||\033[0m\n" << endl;
 
-    return 0;
+    cout << "\n            " << "\033[3;4m" << "Thank you for using the financial trend analyzer!" << "\033[23;24m ";
+    cout << endl << endl;
 
+    return 0;
 }
